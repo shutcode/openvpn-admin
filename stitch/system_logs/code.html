@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VPN Precision Observatory - Activity Logs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains+Mono', monospace; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        /* Custom scrollbar for the observatory feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c2c6d6; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#545f73",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary": "#0058be",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-primary": "#adc6ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-on-surface": "#eff1f3",
+                        "outline-variant": "#c2c6d6",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-tint": "#005ac2",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-container": "#f5fff6",
+                        "on-secondary-container": "#586377",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#006947",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-container": "#2170e4",
+                        "outline": "#727785",
+                        "tertiary-container": "#00855b",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-background": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001a42",
+                        "primary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#424754",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary-container": "#fefcff"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="bg-slate-900 dark:bg-black h-screen w-64 fixed left-0 top-0 shadow-xl flex flex-col h-full py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold tracking-tight text-white">VPN Manager</h1>
+<p class="text-xs text-slate-400 font-medium">Enterprise Gateway</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="text-slate-400 hover:text-white mx-2 px-4 py-2 flex items-center gap-3 transition-colors hover:bg-slate-800 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-sans text-sm">Dashboard</span>
+</a>
+<!-- Users -->
+<a class="text-slate-400 hover:text-white mx-2 px-4 py-2 flex items-center gap-3 transition-colors hover:bg-slate-800 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-sans text-sm">Users</span>
+</a>
+<!-- Settings -->
+<a class="text-slate-400 hover:text-white mx-2 px-4 py-2 flex items-center gap-3 transition-colors hover:bg-slate-800 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-sans text-sm">Settings</span>
+</a>
+<!-- Logs (Active) -->
+<a class="bg-blue-600 text-white rounded-full mx-2 px-4 py-2 flex items-center gap-3 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-sans text-sm">Logs</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl">
+<div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xs overflow-hidden">
+<img alt="Admin Profile" data-alt="close up professional headshot of a system administrator with a focused expression in a dimly lit server room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM7-W-KhLHLFfRLTq77Xz6FB4tNZkeGKvLFgUKfnTCoEiXrhTW-FNFZubJ8lm7oO9jfZsIJofDrEJT91aBvXdEQjylgj8mMdBHNxiDq_WLO0DX5fHZlGgCQydPQ-dApR4Nbgxo0z1okNayCozZhBxST5-TSU_cLnKt-1hKqWyCrntQ06PEpCR8zPhDnghHcjohyQRQdT5S3uX5cfa5_q9V0m9exrrAuYpuf1Flw0IR2Zv8t0pHTZaDd_evuwHBwGF4WEm-xOOwz_k"/>
+</div>
+<div class="overflow-hidden">
+<p class="text-white text-xs font-semibold truncate">admin_root</p>
+<p class="text-slate-500 text-[10px] truncate">System Architect</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400 transition-all" placeholder="Search logs, IPs, or users..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-tertiary-container/10 rounded-full">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+<span class="text-xs font-bold text-tertiary uppercase tracking-wider">Server: Online</span>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:text-blue-500 cursor-pointer transition-opacity duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:text-blue-500 cursor-pointer transition-opacity duration-200">
+<span class="material-symbols-outlined" data-icon="dns">dns</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="mt-16 p-8 overflow-y-auto flex-1">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Activity Logs</h2>
+<p class="text-on-surface-variant text-sm">Real-time observatory of network access and system events.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high text-on-surface px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-surface-container-highest transition-colors active:scale-95">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+                        Export Logs (CSV)
+                    </button>
+</div>
+</div>
+<!-- Precision Controls (Filter Bar) -->
+<div class="bg-surface-container-low rounded-xl p-4 mb-8 flex flex-wrap items-center gap-6">
+<div class="flex flex-col gap-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Date Range</label>
+<div class="flex items-center gap-2 bg-surface-container-lowest rounded-lg px-3 py-2 shadow-sm">
+<input class="bg-transparent border-none text-xs focus:ring-0 p-0 text-on-surface" type="date"/>
+<span class="text-slate-300 text-xs">to</span>
+<input class="bg-transparent border-none text-xs focus:ring-0 p-0 text-on-surface" type="date"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Event Type</label>
+<select class="bg-surface-container-lowest border-none rounded-lg px-3 py-2 text-xs shadow-sm focus:ring-2 focus:ring-primary/20 min-w-[160px]">
+<option>All Events</option>
+<option>Connect</option>
+<option>Disconnect</option>
+<option>Auth Error</option>
+<option>System Warning</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Gateway</label>
+<select class="bg-surface-container-lowest border-none rounded-lg px-3 py-2 text-xs shadow-sm focus:ring-2 focus:ring-primary/20 min-w-[140px]">
+<option>US-EAST-01</option>
+<option>EU-WEST-04</option>
+<option>ASIA-SOUTH-02</option>
+</select>
+</div>
+<div class="ml-auto self-end pb-1">
+<button class="text-primary text-xs font-bold hover:underline">Clear all filters</button>
+</div>
+</div>
+<!-- Log Table Observatory -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant">Timestamp</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant">User</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant">IP Address</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant">Event Type</th>
+<th class="py-4 px-6 text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant">Details</th>
+<th class="py-4 px-6"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Log Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-4 px-6 mono text-xs text-on-surface-variant">2023-10-27 14:22:01.442</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed-variant">JD</div>
+<span class="text-sm font-medium">j.doe@enterprise.com</span>
+</div>
+</td>
+<td class="py-4 px-6 mono text-xs">192.168.1.105</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-container/20 text-on-tertiary-fixed-variant uppercase">Connect</span>
+</td>
+<td class="py-4 px-6">
+<p class="text-xs text-on-surface-variant mono truncate max-w-xs">TLSv1.3 initial handshake success (AES-256-GCM)</p>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Log Row 2 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors">
+<td class="py-4 px-6 mono text-xs text-on-surface-variant">2023-10-27 14:18:55.109</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-error-container flex items-center justify-center text-[10px] font-bold text-on-error-container">?</div>
+<span class="text-sm font-medium">unknown_vector</span>
+</div>
+</td>
+<td class="py-4 px-6 mono text-xs">45.12.99.201</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-error-container text-on-error-container uppercase">Auth Error</span>
+</td>
+<td class="py-4 px-6">
+<p class="text-xs text-error font-medium mono">VERIFY ERROR: depth=0, error=certificate revoked</p>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Log Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-4 px-6 mono text-xs text-on-surface-variant">2023-10-27 14:15:22.001</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-secondary-fixed flex items-center justify-center text-[10px] font-bold text-on-secondary-fixed-variant">SM</div>
+<span class="text-sm font-medium">s.miller@enterprise.com</span>
+</div>
+</td>
+<td class="py-4 px-6 mono text-xs">10.0.42.18</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase">Disconnect</span>
+</td>
+<td class="py-4 px-6">
+<p class="text-xs text-on-surface-variant mono truncate max-w-xs">SIGTERM received; client-initiated shutdown</p>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Log Row 4 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors">
+<td class="py-4 px-6 mono text-xs text-on-surface-variant">2023-10-27 14:10:44.912</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed-variant">RK</div>
+<span class="text-sm font-medium">r.khan@enterprise.com</span>
+</div>
+</td>
+<td class="py-4 px-6 mono text-xs">172.16.0.44</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-container/20 text-on-tertiary-fixed-variant uppercase">Connect</span>
+</td>
+<td class="py-4 px-6">
+<p class="text-xs text-on-surface-variant mono truncate max-w-xs">Peer Connection Initialized; Virtual Addr: 10.8.0.5</p>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Log Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-4 px-6 mono text-xs text-on-surface-variant">2023-10-27 13:58:31.022</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600">SYS</div>
+<span class="text-sm font-medium">SYSTEM</span>
+</div>
+</td>
+<td class="py-4 px-6 mono text-xs">localhost</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-surface-container-highest text-on-surface-variant uppercase">Maintenance</span>
+</td>
+<td class="py-4 px-6">
+<p class="text-xs text-on-surface-variant mono truncate max-w-xs">Automatic log rotation completed successfully.</p>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="p-4 border-t border-surface-container flex justify-between items-center bg-surface-container-lowest">
+<span class="text-xs text-on-surface-variant font-medium">Showing 1 to 5 of 12,842 logs</span>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-low transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-low text-xs font-bold text-on-surface transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-low text-xs font-bold text-on-surface transition-colors">3</button>
+<span class="flex items-end px-1 text-slate-400">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-low text-xs font-bold text-on-surface transition-colors">256</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bento Status Cards (Technical Context) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-extrabold text-on-surface-variant uppercase tracking-widest">Active Tunnels</span>
+<h3 class="text-2xl font-bold mt-1">1,204</h3>
+</div>
+<div class="mt-4 h-12 flex items-end gap-1">
+<div class="flex-1 bg-primary/20 h-4 rounded-sm"></div>
+<div class="flex-1 bg-primary/20 h-6 rounded-sm"></div>
+<div class="flex-1 bg-primary/20 h-8 rounded-sm"></div>
+<div class="flex-1 bg-primary/60 h-10 rounded-sm"></div>
+<div class="flex-1 bg-primary h-12 rounded-sm"></div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6">
+<span class="text-[10px] font-extrabold text-on-surface-variant uppercase tracking-widest">Auth Success Rate</span>
+<div class="flex items-baseline gap-2 mt-1">
+<h3 class="text-2xl font-bold">99.8%</h3>
+<span class="text-xs font-bold text-tertiary">+0.2%</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2">Measured over the last 24 hours across all nodes.</p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6">
+<span class="text-[10px] font-extrabold text-on-surface-variant uppercase tracking-widest">System Health</span>
+<div class="mt-3 flex items-center gap-3">
+<div class="flex-1 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[85%] h-full bg-gradient-to-r from-primary to-primary-container"></div>
+</div>
+<span class="text-xs font-bold text-on-surface">85%</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-3 uppercase tracking-tighter">Load: 2.14 / 2.08 / 1.95</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

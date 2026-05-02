@@ -1,0 +1,29 @@
+.DS_Store
+.idea/
+.vscode/
+.gstack/
+
+# Build artifacts
+server
+openvpn-mgmt
+/dist/
+*.test
+*.out
+
+# Local data
+/data/*.db
+/data/*.db-journal
+/data/*.db-wal
+/data/*.db-shm
+
+# TLS / secrets
+*.pem
+*.key
+*.crt
+.jwt_secret
+.env
+.env.*
+!.env.example
+
+# nginx local
+/ssl/

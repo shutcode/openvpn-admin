@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  openvpn-mgmt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openvpn-mgmt
+    restart: unless-stopped
+    ports:
+      - "8282:8080"
+    environment:
+      - PORT=8080
+      - DB_PATH=/data/openvpn.db
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - EASYRSA_PATH=/etc/openvpn/easy-rsa
+      - OPENVPN_PATH=/etc/openvpn
+      - CLIENTS_DIR=/etc/openvpn/clients
+      - DASHBOARD_DIR=/root/dashboard
+    volumes:
+      # Database persistence
+      - ./data:/data
+      # OpenVPN configuration — named volumes so the stack also runs on
+      # hosts (e.g. macOS) that have no /etc/openvpn directory.
+      - openvpn-config:/etc/openvpn
+      - openvpn-easyrsa:/etc/openvpn/easy-rsa
+      - openvpn-clients:/etc/openvpn/clients
+    networks:
+      - openvpn-mgmt
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Reverse proxy with HTTPS
+  nginx:
+    image: docker.1ms.run/library/nginx:alpine
+    container_name: openvpn-mgmt-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - openvpn-mgmt
+    networks:
+      - openvpn-mgmt
+    profiles:
+      - with-nginx
+
+volumes:
+  openvpn-config:
+  openvpn-easyrsa:
+  openvpn-clients:
+
+networks:
+  openvpn-mgmt:
+    driver: bridge

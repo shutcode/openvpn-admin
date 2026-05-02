@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VPN Precision Observatory - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#545f73",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary": "#0058be",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-primary": "#adc6ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-on-surface": "#eff1f3",
+                        "outline-variant": "#c2c6d6",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-tint": "#005ac2",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-container": "#f5fff6",
+                        "on-secondary-container": "#586377",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#006947",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-container": "#2170e4",
+                        "outline": "#727785",
+                        "tertiary-container": "#00855b",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-background": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001a42",
+                        "primary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#424754",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary-container": "#fefcff"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(0, 88, 190, 0.1) 0%, rgba(0, 88, 190, 0) 100%);
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-900 dark:bg-black shadow-xl flex flex-col py-6 z-50 font-sans antialiased text-sm">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold tracking-tight text-white">VPN Manager</h1>
+<p class="text-slate-400 text-xs mt-1">Enterprise Gateway</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Active -->
+<a class="bg-blue-600 text-white rounded-full mx-2 px-4 py-2 flex items-center gap-3 active:scale-95 duration-150 shadow-lg shadow-blue-900/50" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-semibold">Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-white hover:bg-slate-800 transition-all mx-2 px-4 py-2 flex items-center gap-3 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Users</span>
+</a>
+<a class="text-slate-400 hover:text-white hover:bg-slate-800 transition-all mx-2 px-4 py-2 flex items-center gap-3 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="text-slate-400 hover:text-white hover:bg-slate-800 transition-all mx-2 px-4 py-2 flex items-center gap-3 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Logs</span>
+</a>
+</nav>
+<div class="mt-auto px-4 flex items-center gap-3 border-t border-slate-800 pt-6">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-700">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="professional portrait of a system administrator in a dark studio setting with soft rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr22FO3EDT0dhdiOwHGw7C1udzF3r1kbixp65nKK9zbpD5BdHiDLOPYKaR8sOk833UfoMs1Y_sWV0wMREPDABz4ld8pjtuQx-Ws4zncU6T4DKmaq2Xxoo-CzTdRbynTK2jSVp-L7bNFqXqLTn7yWylXF1YBqK3aTdojLcTdK7udI-27mVosGRiTrK0GVndIARMU8moRv8i4Lq3tFVTy1w04AUhXrZF7drVg19D-wClk7KVNQJaY3it2QK2z0Hgir3v8iu4WwS1EqQ"/>
+</div>
+<div class="overflow-hidden">
+<p class="text-white font-medium truncate">Admin Profile</p>
+<p class="text-slate-500 text-xs">Superuser</p>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex justify-between items-center px-8 z-40 text-sm font-medium Inter border-b border-outline-variant/10">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-64 group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-surface-container-highest border-none rounded-DEFAULT pl-10 py-2 focus:ring-2 focus:ring-primary/20 text-on-surface placeholder-slate-400 transition-all" placeholder="Search observatory..." type="text"/>
+</div>
+<span class="text-blue-600 font-semibold cursor-default">VPN Precision Observatory</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<span class="material-symbols-outlined hover:text-blue-500 cursor-pointer transition-colors duration-200" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined hover:text-blue-500 cursor-pointer transition-colors duration-200" data-icon="dns">dns</span>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed-dim/20">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse-soft"></span>
+<span class="text-tertiary font-bold tracking-wide">Server: Online</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-8 min-h-screen">
+<!-- Header Section -->
+<div class="mb-12 flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Network Overview</h2>
+<p class="text-on-surface-variant max-w-lg">Monitoring real-time traffic, secure handshakes, and gateway health across the global precision cluster.</p>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-2.5 rounded-DEFAULT shadow-lg flex items-center gap-2 hover:shadow-primary/30 hover:brightness-110 active:scale-95 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+<span class="font-semibold">Export Report</span>
+</button>
+</div>
+<!-- Top-Level Stats: Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+<!-- Active Users Card -->
+<div class="group bg-surface-container-lowest p-6 rounded-xl border border-transparent shadow-sm hover:shadow-xl hover:border-primary/10 hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-fixed text-on-primary-fixed-variant rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+<span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">HEALTHY</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium mb-1">Active Users</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold tracking-tight">12</span>
+<span class="text-on-surface-variant text-lg">/ 50</span>
+</div>
+<div class="mt-4 w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[24%]" style="width: 24%;"></div>
+</div>
+</div>
+<!-- Server Status Card -->
+<div class="group bg-surface-container-lowest p-6 rounded-xl border border-transparent shadow-sm hover:shadow-xl hover:border-tertiary/10 hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-container text-on-tertiary-container rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Uptime: 99.9%</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium mb-1">Server Status</h3>
+<div class="flex items-center gap-2">
+<span class="text-3xl font-extrabold tracking-tight text-tertiary">Online</span>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant">Primary US-East Gateway (Virginia)</p>
+</div>
+<!-- Total Traffic Card -->
+<div class="group bg-surface-container-lowest p-6 rounded-xl border border-transparent shadow-sm hover:shadow-xl hover:border-secondary/10 hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-fixed text-on-secondary-fixed-variant rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="swap_vert">swap_vert</span>
+</div>
+<span class="text-xs font-bold text-primary bg-primary-fixed px-2 py-1 rounded">+12% vs LW</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium mb-1">Total Traffic</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold tracking-tight">4.2</span>
+<span class="text-on-surface-variant text-lg">GB</span>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant">Accumulated data since 00:00 UTC</p>
+</div>
+</div>
+<!-- Connection Trends Section -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
+<!-- Sleek Line Graph -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-transparent hover:shadow-xl transition-all duration-300">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h4 class="text-xl font-bold tracking-tight">Connection Trends</h4>
+<p class="text-sm text-on-surface-variant">Concurrent sessions over the last 24 hours</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 text-xs font-bold bg-surface-container text-on-surface-variant rounded-full hover:bg-surface-container-high active:scale-95 transition-all">Day</button>
+<button class="px-4 py-1.5 text-xs font-bold bg-primary text-white rounded-full hover:brightness-110 active:scale-95 transition-all shadow-md shadow-primary/20">Week</button>
+<button class="px-4 py-1.5 text-xs font-bold bg-surface-container text-on-surface-variant rounded-full hover:bg-surface-container-high active:scale-95 transition-all">Month</button>
+</div>
+</div>
+<!-- Custom SVG Graph Mock -->
+<div class="relative h-[300px] w-full mt-4">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 1000 300">
+<defs>
+<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0058be" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#0058be" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area -->
+<path d="M0,250 Q100,220 200,240 T400,180 T600,210 T800,100 T1000,120 L1000,300 L0,300 Z" fill="url(#areaGradient)"></path>
+<!-- Line -->
+<path d="M0,250 Q100,220 200,240 T400,180 T600,210 T800,100 T1000,120" fill="none" stroke="#0058be" stroke-linecap="round" stroke-width="4"></path>
+<!-- Nodes -->
+<circle cx="200" cy="240" fill="white" r="6" stroke="#0058be" stroke-width="2"></circle>
+<circle cx="400" cy="180" fill="white" r="6" stroke="#0058be" stroke-width="2"></circle>
+<circle cx="800" cy="100" fill="white" r="6" stroke="#0058be" stroke-width="2"></circle>
+<!-- Reference Lines -->
+<line stroke="#f2f4f6" stroke-width="1" x1="0" x2="1000" y1="50" y2="50"></line>
+<line stroke="#f2f4f6" stroke-width="1" x1="0" x2="1000" y1="150" y2="150"></line>
+<line stroke="#f2f4f6" stroke-width="1" x1="0" x2="1000" y1="250" y2="250"></line>
+</svg>
+<div class="flex justify-between mt-4 px-2 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/50">
+<span>00:00</span>
+<span>04:00</span>
+<span>08:00</span>
+<span>12:00</span>
+<span>16:00</span>
+<span>20:00</span>
+<span>23:59</span>
+</div>
+</div>
+</div>
+<!-- Quick Actions / Right Sidebar Card -->
+<div class="lg:col-span-1 space-y-8">
+<div class="bg-inverse-surface p-6 rounded-xl text-white shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-white/5">
+<h5 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Quick Diagnostics</h5>
+<ul class="space-y-4">
+<li class="flex items-center justify-between group cursor-pointer hover:text-blue-400 transition-colors">
+<span class="text-sm">Ping All Nodes</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1.5 transition-transform duration-300">chevron_right</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer hover:text-blue-400 transition-colors">
+<span class="text-sm">Flush DNS Cache</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1.5 transition-transform duration-300">chevron_right</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer hover:text-blue-400 transition-colors">
+<span class="text-sm">Rotate Auth Keys</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1.5 transition-transform duration-300">chevron_right</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer text-error hover:brightness-125 transition-all p-1 -mx-1 rounded-DEFAULT hover:bg-error/10">
+<span class="text-sm font-semibold">Reboot Gateway</span>
+<span class="material-symbols-outlined text-lg group-hover:rotate-12 transition-transform duration-300">power_settings_new</span>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-transparent hover:border-outline-variant/30 transition-all">
+<h5 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Traffic Hubs</h5>
+<div class="space-y-4">
+<div class="flex items-center gap-3 group">
+<div class="w-2 h-2 rounded-full bg-blue-500 group-hover:scale-125 transition-transform"></div>
+<span class="text-xs font-semibold">New York, US</span>
+<span class="ml-auto text-xs text-on-surface-variant">1.4 GB</span>
+</div>
+<div class="flex items-center gap-3 group">
+<div class="w-2 h-2 rounded-full bg-emerald-500 group-hover:scale-125 transition-transform"></div>
+<span class="text-xs font-semibold">London, UK</span>
+<span class="ml-auto text-xs text-on-surface-variant">0.9 GB</span>
+</div>
+<div class="flex items-center gap-3 group">
+<div class="w-2 h-2 rounded-full bg-orange-500 group-hover:scale-125 transition-transform"></div>
+<span class="text-xs font-semibold">Tokyo, JP</span>
+<span class="ml-auto text-xs text-on-surface-variant">1.9 GB</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Logs Table (Standard Log Design) -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-transparent hover:shadow-xl transition-all duration-300">
+<div class="flex justify-between items-center mb-8">
+<h4 class="text-xl font-bold tracking-tight">Recent Handshakes</h4>
+<a class="text-primary text-sm font-bold hover:underline underline-offset-4 decoration-2 transition-all" href="#">View All Logs</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
+<th class="pb-6">User Identity</th>
+<th class="pb-6">Remote Address</th>
+<th class="pb-6">Virtual IP</th>
+<th class="pb-6">Duration</th>
+<th class="pb-6 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="group hover:bg-primary/5 transition-colors cursor-default">
+<td class="py-5 font-semibold group-hover:text-primary transition-colors">j.anderson@corpx.com</td>
+<td class="py-5 text-on-surface-variant">192.168.1.104</td>
+<td class="py-5 text-on-surface-variant">10.8.0.5</td>
+<td class="py-5">
+<span class="bg-tertiary-container/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold group-hover:bg-tertiary-container/40 transition-colors">2h 14m</span>
+</td>
+<td class="py-5 text-right">
+<button class="text-on-surface-variant hover:text-error transition-all hover:scale-110 active:scale-90">
+<span class="material-symbols-outlined">block</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors cursor-default bg-surface-container-low/30">
+<td class="py-5 font-semibold group-hover:text-primary transition-colors">m.chen@corpx.com</td>
+<td class="py-5 text-on-surface-variant">45.22.18.99</td>
+<td class="py-5 text-on-surface-variant">10.8.0.8</td>
+<td class="py-5">
+<span class="bg-tertiary-container/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold group-hover:bg-tertiary-container/40 transition-colors">0h 45m</span>
+</td>
+<td class="py-5 text-right">
+<button class="text-on-surface-variant hover:text-error transition-all hover:scale-110 active:scale-90">
+<span class="material-symbols-outlined">block</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors cursor-default">
+<td class="py-5 font-semibold group-hover:text-primary transition-colors">l.smith@corpx.com</td>
+<td class="py-5 text-on-surface-variant">102.14.55.1</td>
+<td class="py-5 text-on-surface-variant">10.8.0.12</td>
+<td class="py-5">
+<span class="bg-secondary-container text-secondary px-3 py-1 rounded-full text-xs font-bold group-hover:bg-secondary-container/80 transition-colors">Connecting...</span>
+</td>
+<td class="py-5 text-right">
+<button class="text-on-surface-variant hover:text-error transition-all hover:scale-110 active:scale-90">
+<span class="material-symbols-outlined">block</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors cursor-default bg-surface-container-low/30">
+<td class="py-5 font-semibold group-hover:text-primary transition-colors">d.wilson@corpx.com</td>
+<td class="py-5 text-on-surface-variant">211.8.192.4</td>
+<td class="py-5 text-on-surface-variant">10.8.0.15</td>
+<td class="py-5">
+<span class="bg-tertiary-container/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold group-hover:bg-tertiary-container/40 transition-colors">8h 12m</span>
+</td>
+<td class="py-5 text-right">
+<button class="text-on-surface-variant hover:text-error transition-all hover:scale-110 active:scale-90">
+<span class="material-symbols-outlined">block</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body></html>
