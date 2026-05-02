@@ -84,9 +84,7 @@ func Load() (*Config, error) {
 	}
 
 	if jwtSecret == "" {
-		// Fall back to a default for local/dev so docker-compose works out of
-		// the box. Production deployments should override JWT_SECRET.
-		jwtSecret = "change-me-in-production"
+		return nil, fmt.Errorf("JWT_SECRET (or JWT_SECRET_FILE) is required; generate one with: openssl rand -hex 32")
 	}
 
 	cfg.JWTSecret = jwtSecret

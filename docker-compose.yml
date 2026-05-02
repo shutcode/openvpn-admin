@@ -12,11 +12,13 @@ services:
     environment:
       - PORT=8080
       - DB_PATH=/data/openvpn.db
-      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required — generate with: openssl rand -hex 32}
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?ADMIN_PASSWORD is required — generate with: openssl rand -hex 16}
       - EASYRSA_PATH=/etc/openvpn/easy-rsa
       - OPENVPN_PATH=/etc/openvpn
       - CLIENTS_DIR=/etc/openvpn/clients
-      - DASHBOARD_DIR=/root/dashboard
+      - DASHBOARD_DIR=/app/dashboard
     volumes:
       # Database persistence
       - ./data:/data
@@ -36,7 +38,7 @@ services:
 
   # Optional: Reverse proxy with HTTPS
   nginx:
-    image: docker.1ms.run/library/nginx:alpine
+    image: nginx:alpine
     container_name: openvpn-mgmt-nginx
     restart: unless-stopped
     ports:
