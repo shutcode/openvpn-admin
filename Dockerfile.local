@@ -1,0 +1,35 @@
+# China-friendly build using docker.1ms.run mirror + goproxy.cn.
+# For internal deployments where docker.io / proxy.golang.org are not reachable.
+# Use the public Dockerfile when building outside CN.
+#
+#   docker build -f Dockerfile.local -t openvpn-admin:local .
+
+# syntax=docker/dockerfile:1
+
+FROM docker.1ms.run/library/golang:1.26-alpine AS build
+
+WORKDIR /src
+
+RUN apk add --no-cache git ca-certificates
+
+COPY go.mod go.sum ./
+ENV GOPROXY=https://goproxy.cn,direct
+RUN go mod download
+
+COPY . .
+
+# modernc.org/sqlite is pure Go — CGO not required.
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags='-s -w' -o /out/server ./cmd/server
+
+FROM docker.1ms.run/library/alpine:latest
+
+RUN apk --no-cache add ca-certificates openssl wget
+
+WORKDIR /app
+
+COPY --from=build /out/server .
+COPY --from=build /src/dashboard ./dashboard
+
+EXPOSE 8080
+
+CMD ["./server", "serve"]

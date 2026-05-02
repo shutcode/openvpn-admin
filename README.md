@@ -104,6 +104,14 @@ docker compose --profile with-nginx up -d
 
 See [DOCKER.md](DOCKER.md) for the full Compose reference.
 
+> **Behind the GFW?** `Dockerfile.local` + `docker-compose.local.yml` use the
+> `docker.1ms.run` mirror and `goproxy.cn` for environments where Docker Hub
+> and `proxy.golang.org` are unreachable:
+>
+> ```bash
+> docker compose -f docker-compose.local.yml up -d
+> ```
+
 ## Configuration
 
 Configuration is done via environment variables:
